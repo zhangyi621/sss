@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ flags }}信息更新
+{% endblock %}
+
+{% block ext_js %}
+    {% if img %}
+        <script src="https://cdn.staticfile.org/Plupload/2.1.1/moxie.js"></script>
+        <script src="https://cdn.staticfile.org/Plupload/2.1.1/plupload.dev.js"></script>
+        <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.js"></script>
+        <script src="{{ url_for('static', filename='js/itqiniu.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/img_upload.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="page-header">
+                <h3 class="text-center">{{ shop.shop_name }}店铺 - {{ flags }}信息</h3>
+            </div>
+            <form class="form-horizontal" method="post" action="" novalidate>
+                {% for item in form %}
+                    {% if item.id == 'csrf_token' %}
+                        {{ item }}
+                    {% elif item.id == 'image-input' %}
+                        <div class="form-group">
+                            {{ item.label(class_="col-sm-3 control-label") }}
+                            <div class="col-sm-3">
+                                <button id="upload-btn" class="btn btn-default form-control">上传图片</button>
+                            </div>
+                            <div class="col-sm-6">
+                                {{ item }}
+                                <img src="{{ item.data }}" alt="" width="50px" id="image-show">
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="form-group">
+                            {{ item.label(class_="col-sm-3 control-label") }}
+                            <div class="col-sm-9">
+                                {{ item }}
+                                <span class="text-danger">{{ item.errors[0] }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">更新</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

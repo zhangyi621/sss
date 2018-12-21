@@ -1,0 +1,5 @@
+.idea
+log/*
+migrations/*
+*.db
+web_client

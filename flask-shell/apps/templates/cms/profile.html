@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    个人中心
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">吃了吗商家管理系统</h1>
+        <hr>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong class="text-danger">{{ current_user.username }}</strong> 的店铺：
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>店铺名称</th>
+                    <th>店铺评分</th>
+                    <th>起送价格</th>
+                    <th>配送费</th>
+                    <th>菜品分类</th>
+                    <th>菜品信息</th>
+                </tr>
+                </thead>
+                {% if stores %}
+                    <tbody>
+                    {% for store in stores %}
+                        <tr>
+                            <th>{{ loop.index }}</th>
+                            <th><a href="{{ url_for("cms.shop_update",pub_id=store.pub_id) }}">{{ store.shop_name }}</a></th>
+                            <th>{{ store.shop_rating }}</th>
+                            <th>￥ {{ store.start_send }}</th>
+                            <th>￥ {{ store.send_cost }}</th>
+                            <th>
+                                <a href="{{ url_for("cms.cate_add",shop_id=store.id) }}">添加</a>
+                                &nbsp;&nbsp;
+                                <a href="{{ url_for("cms.category",shop_id=store.id) }}">查看</a>
+                            </th>
+                            <th>
+                                <a href="{{ url_for("cms.info_add",shop_id=store.id) }}">添加</a>
+                                &nbsp;&nbsp;
+                                <a href="{{ url_for("cms.info_index",shop_id=store.id) }}">查看</a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                {% else %}
+                    <div><a href="{{ url_for('cms.shop_add') }}">还没有店铺那，赶快添加一个店铺吧...</a></div>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
